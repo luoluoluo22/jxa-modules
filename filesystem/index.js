@@ -14,11 +14,13 @@ list('/Users/luomingyang/Desktop')
 let app = Application.currentApplication()
 app.includeStandardAdditions = true
 
-function read(filepath) {
-  let handle = app.openForAccess(filepath)
-  let data = app.read(handle)
-  app.closeAccess(filepath)
-  return data
+function read(path, encoding) {
+  !encoding && (encoding = $.NSUTF8StringEncoding)
+
+  const fm = $.NSFileManager.defaultManager
+  const data = fm.contentsAtPath(path)
+  const str = $.NSString.alloc.initWithDataEncoding(data, encoding)
+  return ObjC.unwrap(str)
 }
 
 function write(filepath, data) {
@@ -29,7 +31,7 @@ function write(filepath, data) {
     $.NSUTF8StringEncoding,
     null
   )
-  return filepath + 'write successful!'
+  console.log(filepath + ' write successful!')
 }
 
 function move(someFolder, someOtherFolder) {
@@ -115,7 +117,7 @@ function reveal(filepath) {
   Finder.activate()
 }
 
-let res = read('/Users/luomingyang/Desktop/test2.txt')
+// let res = read('/Users/luomingyang/Desktop/test2.txt')
 // let res = write('/Users/luomingyang/Desktop/test.txt','writ test')
 // let res = list('/Users/luomingyang/Desktop')
 // let res = exist('/Users/luomingyang/Desktop')
@@ -124,7 +126,7 @@ let res = read('/Users/luomingyang/Desktop/test2.txt')
 // reveal('/Users/luomingyang/Desktop/test.txt')
 // save_file_to()
 
-console.log(res)
+// console.log(res)
 
 var module = { exports: {} }
 module.exports = { read, write, list, save_file_to, reveal, choose_file, exist }

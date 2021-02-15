@@ -14,12 +14,9 @@ km.execute('macro_name','parameter')
 
 */
 
-
-
 class Keyboard_maestro {
-  constructor() {
-    this.app = Application('Keyboard Maestro Engine')
-  }
+  app = Application('Keyboard Maestro Engine')
+  constructor() {}
 
   execute(macro_name = '', parameter = '') {
     // km.doScript('02-窗口全屏', { withParameter: 'string' }) //km中 %TriggerValue% 来接收变量,只能是字符串

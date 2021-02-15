@@ -28,14 +28,14 @@ ObjC.import('CoreGraphics')
 
 function location(screenH = 1050) {
   const mouseLoc = $.NSEvent.mouseLocation //获取 鼠标当前的的坐标（浮点数）
-  mouseLoc.mx = parseInt(mouseLoc.x)
-  mouseLoc.my = screenH - Math.trunc(mouseLoc.y) //坐标需要屏幕高度减获取的坐标
+  mouseLoc.x = parseInt(mouseLoc.x)
+  mouseLoc.y = screenH - Math.trunc(mouseLoc.y) //坐标需要屏幕高度减获取的坐标
   return mouseLoc
 }
 
 // 鼠标的基本操作=========================
 
-var { mx, my } = location()
+var { mx: x, my: y } = location()
 var left_mouse_down = $.kCGEventLeftMouseDown //鼠标左键按下事件
 var right_mouse_down = $.kCGEventRightMouseDown //鼠标左键按下事件
 var left_mouse_up = $.kCGEventLeftMouseUp
@@ -49,7 +49,7 @@ function mouse_event(event_type, coords) {
   const nil = $()
   // const nil = 10
   // usleep(200000)
-  
+
   var event = $.CGEventCreateMouseEvent(
     nil,
     event_type,
