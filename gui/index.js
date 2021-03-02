@@ -1,3 +1,4 @@
+#!/usr/bin/env osascript -l JavaScript
 /* 使用说明
 
 此模块用于用户交互显示界面
@@ -24,12 +25,12 @@ function alert(title = 'alert', message = '') {
 function dialog(question, default_answer = '', time_out = 3) {
   // 返回值是对象{"buttonReturned":"好", "textReturned":"answer"}
   try {
-    return app.displayDialog(question, {
+    app.displayDialog(question, {
       defaultAnswer: default_answer,
       givingUpAfter: time_out,
     })
   } catch (e) {
-    console.log(e)
+    // console.log(e,'有错误')
     return null
   }
 }
@@ -53,11 +54,11 @@ function notice(
 }
 
 // alert('alert')
-let res = dialog('question')
+// let res = dialog('question')
 // let res = choose('choose', ['yes', 'no'])
 // let res = notice()
 
-console.log(res)
+// console.log(res)
 
 var module = { exports: {} }
 module.exports = { alert, dialog, choose, notice }

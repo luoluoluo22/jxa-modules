@@ -52,6 +52,7 @@ class Chrome extends App {
   constructor() {
     super('google chrome')
     this.input_count = 0
+    this.current_tab = this.app.windows[0].tabs[0]
   }
 
   open(url, is_background = true) {
@@ -62,8 +63,12 @@ class Chrome extends App {
     this.wait_load_finish()
   }
 
-  close() {
-    this.current_tab.close()
+  close_window(i = 0) {
+    this.app.windows[i].close()
+  }
+
+  close_tab(i = 0) {
+    this.app.windows[0].tabs[i].close()
   }
 
   input(element, value) {
@@ -93,19 +98,16 @@ class Chrome extends App {
     this.do_js(click_code)
   }
 
-  do_js(code, result = '') {
-    if (result) {
-      let current_title = this.current_tab.name()
-
-      let set_title = `document.title=${result}`
-      this.current_tab.execute({ javascript: code + set_title })
-      let res = this.current_tab.name()
-      this.current_tab.execute({
-        javascript: `document.title='${current_title}'`,
-      })
-      return res
-    } else {
+  do_js(code, result = false) {
+    try {
       this.current_tab.execute({ javascript: code })
+    } catch (e) {
+      console.log(e)
+    }
+    if (result) {
+      delay(1)
+      let res = this.current_tab.name()
+      return res
     }
   }
 
